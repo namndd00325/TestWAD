@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestWADModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK__Exam__classRoom__173876EA" FromRole="Class" ToRole="Exam" />
+  </EntityType>
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="examSubject" Type="Int32" />
+    <Property Name="startTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="examDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="duration" Type="Int32" Nullable="false" />
+    <Property Name="classRoom" Type="Int32" />
+    <Property Name="faculty" Type="Int32" />
+    <NavigationProperty Name="Class" Relationship="Self.FK__Exam__classRoom__173876EA" FromRole="Exam" ToRole="Class" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK__Exam__examSubjec__164452B1" FromRole="Exam" ToRole="Subject" />
+    <NavigationProperty Name="Faculty1" Relationship="Self.FK__Exam__faculty__182C9B23" FromRole="Exam" ToRole="Faculty" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK__Exam__faculty__182C9B23" FromRole="Faculty" ToRole="Exam" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Exams" Relationship="Self.FK__Exam__examSubjec__164452B1" FromRole="Subject" ToRole="Exam" />
+  </EntityType>
+  <Association Name="FK__Exam__classRoom__173876EA">
+    <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
+    <End Role="Exam" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Exam">
+        <PropertyRef Name="classRoom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Exam__examSubjec__164452B1">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
+    <End Role="Exam" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Exam">
+        <PropertyRef Name="examSubject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Exam__faculty__182C9B23">
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="0..1" />
+    <End Role="Exam" Type="Self.Exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculty">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Exam">
+        <PropertyRef Name="faculty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestWADEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="Self.Class" />
+    <EntitySet Name="Exams" EntityType="Self.Exam" />
+    <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="Subjects" EntityType="Self.Subject" />
+    <AssociationSet Name="FK__Exam__classRoom__173876EA" Association="Self.FK__Exam__classRoom__173876EA">
+      <End Role="Class" EntitySet="Classes" />
+      <End Role="Exam" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Exam__examSubjec__164452B1" Association="Self.FK__Exam__examSubjec__164452B1">
+      <End Role="Subject" EntitySet="Subjects" />
+      <End Role="Exam" EntitySet="Exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Exam__faculty__182C9B23" Association="Self.FK__Exam__faculty__182C9B23">
+      <End Role="Faculty" EntitySet="Faculties" />
+      <End Role="Exam" EntitySet="Exams" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
